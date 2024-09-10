@@ -1,10 +1,7 @@
 var mongoose=require('mongoose')
 const connectDb=()=>{
     console.log('hello');
-    mongoose.connect(process.env.DB_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
+    mongoose.connect(process.env.DB_URL)
     .then((con) => {
         console.log(`DB Connected: ${con.connection.host}`);
     })

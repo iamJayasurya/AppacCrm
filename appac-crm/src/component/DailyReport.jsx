@@ -15,6 +15,8 @@ function DailyReport() {
     id: "" // Added id for editing
   });
 
+  const [isEditing, setIsEditing] = useState(false); // Track if editing
+
   // Handle input changes
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -26,43 +28,61 @@ function DailyReport() {
 
   // Submit form data
   const submitForm = () => {
+    // Determine the API URL and method based on whether we're editing or creating a report
     const url = formData.id 
-      ? 'http://localhost:8000/testapi/v1/dailyreport/edit' 
+      ? `http://localhost:8000/testapi/v1/dailyreport/edit/${formData.id}` // Removed the colon before ${formData.id}
       : 'http://localhost:8000/testapi/v1/dailyreport/today';
-    const method = formData.id ? 'PUT' : 'POST'; // Use PUT for updates
-
+    const method = formData.id ? 'PUT' : 'POST';
+  
+    console.log('Submitting form with data:', formData); // Debugging: Log form data
+  
     fetch(url, {
       method,
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formData)
+      body: JSON.stringify(formData) // Ensure the correct form data is being sent
     })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Report submitted successfully:', data);
-      if (formData.id) {
-        // Update existing report
-        setReport(reportData => reportData.map(r => r.id === data.id ? data : r));
-        alert('Report is updated');
-      } else {
-        // Add new report
-        setReport(reportData => [...reportData, data]);
-        alert('Report is Submitted');
-      }
-      // Clear the form data after submission
-      setFormData({
-        reportdate: "",
-        Client: "",
-        startEnd: "",
-        Totalhrs: "",
-        status: "",
-        description: "",
-        id: ""
+      .then(response => {
+        console.log('Server response status:', response.status); // Debugging: Log the response status
+        if (!response.ok) {
+          // If the response is not OK, throw an error to be caught in the catch block
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Data returned from the server:', data); // Debugging: Log the data returned from the server
+        
+        if (formData.id) {
+          // Update the reportData with the updated report
+          setReport(reportData => reportData.map(r => r.id === formData.id ? data : r));
+          alert('Report updated successfully');
+        } else {
+          // Add the new report to the list
+          setReport(reportData => [...reportData, data]);
+          alert('Report submitted successfully');
+        }
+  
+        // Reset the form and editing state
+        setFormData({
+          reportdate: "",
+          Client: "",
+          startEnd: "",
+          Totalhrs: "",
+          status: "",
+          description: "",
+          id: ""
+        });
+        setIsEditing(false);
+      })
+      .catch(error => {
+        console.error('Error submitting report:', error); // Debugging: Log any errors
+        alert('There was an error submitting the report');
       });
-    })
-    .catch(error => console.error('Error submitting report:', error));
   };
+  
+
 
   // Fetch reports on component mount
   useEffect(() => {
@@ -78,6 +98,21 @@ function DailyReport() {
       ...report,
       reportdate: report.reportdate.split('-').reverse().join('-') // Adjust format if needed
     });
+    setIsEditing(true); // Set editing state to true
+  };
+
+  // Clear form and reset editing state
+  const clearForm = () => {
+    setFormData({
+      reportdate: "",
+      Client: "",
+      startEnd: "",
+      Totalhrs: "",
+      status: "",
+      description: "",
+      id: ""
+    });
+    setIsEditing(false); // Reset editing state
   };
 
   return (
@@ -138,11 +173,13 @@ function DailyReport() {
             </ul>
           </div>
           <div>
-            <p>Project  Short Description</p>
+            <p>Project Short Description</p>
             <textarea 
               name="shortdescription" 
+              value={formData.shortdescription} 
+              onChange={handleChange} 
               required
-            ></textarea>
+            />
           </div>
           <div className='start-end'>
             <div>
@@ -165,16 +202,31 @@ function DailyReport() {
                 required 
               />
             </div>
-       
           </div>
-          <div > 
-                <p>Description</p>
-                <textarea  name='description'  className='description'  value={formData.description} 
-              onChange={handleChange}  ></textarea>
-                </div>
+          <div> 
+            <p>Description</p>
+            <textarea 
+              name='description'  
+              className='description'  
+              value={formData.description} 
+              onChange={handleChange}  
+            />
+          </div>
           <div className='leave-bt-wrp'>
-            <button type="button" onClick={submitForm} className="submit">Submit</button>
-            <button type="button" onClick={() => setFormData({})} className="clear">Clear</button>
+            <button 
+              type="button" 
+              onClick={submitForm} 
+              className="submit"
+            >
+              {isEditing ? 'Update' : 'Submit'}
+            </button>
+            <button 
+              type="button" 
+              onClick={clearForm} 
+              className="clear"
+            >
+              Clear
+            </button>
           </div>
         </div>
         <div className='report-sts'>
@@ -216,33 +268,24 @@ function DailyReport() {
                   </thead>
                   <tbody>
                     {reportData.map((data, index) => (
-                      <ReportTable key={data.id} index={index} reportdata={data} onEdit={onEdit} />
+                      <ReportTable 
+                        key={data.id} 
+                        index={index} 
+                        reportdata={data} 
+                        onEdit={onEdit} 
+                      />
                     ))}
                   </tbody>
                 </table>
                 <div className="serach-box">
                   <div><p>Showing 1 to 1 of 1 entries</p></div>
-                  <div className='paginaton-wrp'>
-                    <div className='pg-arr'>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24">
-                        <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="m14 7l-5 5l5 5" />
-                      </svg>
-                    </div>
-                    <div><a className="pg-nav active">1</a></div>
-                    <div><a className="pg-nav">2</a></div>
-                    <div><a className="pg-nav">3</a></div>
-                    <div className='pg-arr'>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24">
-                        <path fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="m10 17l5-5l-5-5" />
-                      </svg>
-                    </div>
-                  </div>
+                  <div><p>Previous 1 2 Next</p></div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </div>    
     </div>
   );
 }

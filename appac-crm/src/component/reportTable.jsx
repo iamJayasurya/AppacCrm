@@ -1,14 +1,15 @@
 import React from 'react';
 
-function ReportTable({ reportdata, onEdit }) {
+function ReportTable({ index, reportdata, onEdit }) {
   return (
     <tr className="odd">
-      <td>{reportdata.index + 1}</td> {/* Assuming index is handled in parent */}
+      <td>{index + 1}</td>
       <td>{reportdata.reportdate}</td>
       <td>{reportdata.Client}</td>
       <td>{reportdata.startEnd}</td>
       <td>{reportdata.Totalhrs}</td>
       <td>{reportdata.description}</td>
+      <td>{reportdata.status}</td>
       <td className="editor">
         <button onClick={() => onEdit(reportdata)}>
           <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24">

@@ -51,35 +51,31 @@ exports.getreport = async (req, res, next) => {
 
  // Ensure you import your model
 
-  exports.editreport = async (req, res, next) => {
-    try {
-      // Extract report ID from request parameters
+ exports.editreport = async (req, res, next) => {
+  try {
       const { id } = req.params;
-      
-      // Find the report by ID and update it with the data from request body
+
       const updatedReport = await ReportModal.findByIdAndUpdate(
-        id, 
-        req.body, 
-        { new: true, runValidators: true } // Return the updated document and apply validation
+          id,
+          req.body,
+          { new: true, runValidators: true }
       );
-      
+
       if (!updatedReport) {
-        return res.status(404).json({
-          msg: 'Report not found',
-          error: 'No report found with this ID'
-        });
+          return res.status(404).json({
+              msg: 'Report not found',
+              error: 'No report found with this ID'
+          });
       }
-  
-      // Respond with the updated report
+
       res.json({
-        msg: 'Report updated successfully',
-        data: updatedReport
+          msg: 'Report updated successfully',
+          data: updatedReport
       });
-    } catch (error) {
+  } catch (error) {
       res.status(500).json({
-        msg: 'Report not updated',
-        error: error.message
+          msg: 'Report not updated',
+          error: error.message
       });
-    }
-  };
-  
+  }
+};
