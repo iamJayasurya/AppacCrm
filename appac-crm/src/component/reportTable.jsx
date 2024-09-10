@@ -1,13 +1,14 @@
 import React from 'react';
 
 function ReportTable({ index, reportdata, onEdit }) {
+ 
   return (
     <tr className="odd">
       <td>{index + 1}</td>
-      <td>{reportdata.reportdate}</td>
-      <td>{reportdata.Client}</td>
-      <td>{reportdata.startEnd}</td>
-      <td>{reportdata.Totalhrs}</td>
+      <td>{reportdata.report_date}</td>
+      <td>{reportdata.client}</td>
+      <td>{reportdata.start_time}</td>
+      <td>{reportdata.end_time}</td>
       <td>{reportdata.description}</td>
       <td>{reportdata.status}</td>
       <td className="editor">

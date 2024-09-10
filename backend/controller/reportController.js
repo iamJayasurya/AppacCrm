@@ -21,11 +21,11 @@ exports.getreport = async (req, res, next) => {
   exports.postreport = async (req, res, next) => {
     try {
       console.log(req.body, 'data'); // Log the incoming request body
-  
+      
       // Validate the incoming data if needed
       // Example: Check if required fields are present
-      const { reportdate, Client, startEnd, Totalhrs, status } = req.body;
-      if (!reportdate || !startEnd || !Totalhrs || !status) {
+      const { report_date, client, start_time, end_time, status  } = req.body;
+      if (!report_date || !start_time || !end_time || !status || !client) {
         return res.status(400).json({
           msg: 'Missing required fields'
         });
@@ -33,6 +33,7 @@ exports.getreport = async (req, res, next) => {
   
       // Create a new report
       const newReport = await ReportModal.create(req.body);
+   
   
       // Return a success response with the created report
       res.json({

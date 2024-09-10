@@ -6,10 +6,10 @@ import ReportTable from './reportTable';
 function DailyReport({ Editdat }) {
   const [reportData, setReport] = useState([]);
   const [formData, setFormData] = useState({
-    reportdate: "",
-    Client: "",
-    startEnd: "",
-    Totalhrs: "",
+    report_date: "",
+    client: "",
+    start_time: "",
+    end_time: "",
     status: "",
     description: "", // Added missing field
     id: "" // Added id for editing
@@ -92,11 +92,11 @@ function DailyReport({ Editdat }) {
         <div className='report-frm'>
           <div>
             <p>{Editdat} Report Date</p>
-            <input type='date' onChange={handleChange} value={formData.reportdate} name="reportdate" id="date" required />
+            <input type='date' onChange={handleChange} value={formData.report_date} name="report_date" id="date" required />
           </div>
           <div>
-            <p>Client-name</p>
-            <select name="Client" onChange={handleChange} value={formData.Client} required id="cars">
+            <p>client-name</p>
+            <select name="client" onChange={handleChange} value={formData.client} required id="cars">
               <option value="volvo">Volvo</option>
               <option value="saab">Saab</option>
               <option value="mercedes">Mercedes</option>
@@ -119,11 +119,11 @@ function DailyReport({ Editdat }) {
           <div className='start-end'>
             <div>
               <p>Start Time</p>
-              <input type='time' value={formData.startEnd} onChange={handleChange} name='startEnd' required />
+              <input type='time' value={formData.start_time} onChange={handleChange} name='start_time' required />
             </div>
             <div>
               <p>End Time</p>
-              <input type='time' value={formData.Totalhrs} onChange={handleChange} name='Totalhrs' required />
+              <input type='time' value={formData.end_time} onChange={handleChange} name='end_time' required />
             </div>
           </div>
           <div className='leave-bt-wrp'>
@@ -164,7 +164,7 @@ function DailyReport({ Editdat }) {
                     <tr>
                       <th>Sno.</th>
                       <th>Report Date</th>
-                      <th>Client</th>
+                      <th>client</th>
                       <th>Start / End Time</th>
                       <th>Total Hours</th>
                       <th>Status</th>
