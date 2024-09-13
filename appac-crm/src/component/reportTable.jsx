@@ -7,9 +7,8 @@ function ReportTable({ index, reportdata, onEdit }) {
       <td>{index + 1}</td>
       <td>{reportdata.report_date}</td>
       <td>{reportdata.client}</td>
-      <td>{reportdata.start_time}</td>
-      <td>{reportdata.end_time}</td>
-      <td>{reportdata.description}</td>
+      <td>{reportdata.start_time} / {reportdata.end_time}</td>
+      <td>{reportdata.w_hours}</td>
       <td>{reportdata.status}</td>
       <td className="editor">
         <button onClick={() => onEdit(reportdata)}>

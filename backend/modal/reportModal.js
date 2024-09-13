@@ -21,5 +21,5 @@ const reportSchema=new mongoose.Schema({
     worktype:String,
     enquiry_month:String
 })
-const ReportModal = mongoose.model('reporst' ,reportSchema);
+const ReportModal = mongoose.model('dailyReport' ,reportSchema);
 module.exports= ReportModal

@@ -4,6 +4,8 @@ import  '../css/sub-style.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {Link} from 'react-router-dom'
 import Dash from "./dashbord";
+import Login from "./Login";
+
 import Myappac from "./my-appac";
 import Workorder from './workOrder';
 import TaskManagement from './task-managment';
@@ -66,6 +68,7 @@ function SideMenu({active}) {
       </div>
       <div>
           <Routes>
+          <Route path="/login" element={<Login/>} ></Route>
         <Route path="/" element={<Dash/>} ></Route>
         <Route path="/myappac" element={<Myappac/>} >   </Route>
         <Route path="/workorder" element={<Workorder/>} ></Route>

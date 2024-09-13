@@ -5,7 +5,10 @@ var express = require('express');
 var app = express();
 
 // Import routes
+const loginRoutes = require('./routes/register');
 const productRoutes = require('./routes/product');
+
+
 
 // Load environment variables
 dotenv.config({ path: path.join(__dirname, 'env', 'config.env') });
@@ -20,6 +23,8 @@ app.use(express.json());
 
 // Register routes
 app.use('/testapi/v1/', productRoutes);
+app.use('/testapi/v1/',loginRoutes)
+
 
 // Start the server
 app.listen(process.env.PORT, () => {

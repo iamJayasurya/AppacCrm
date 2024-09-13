@@ -224,7 +224,7 @@ h3{font-weight:500;}
 }
 .tab-content.active{display: flex;flex-direction: column;}.tab-content { display: none; transition:0.3s linear; -webkit-transition:0.3s linear; -moz-transition:0.3s linear; -ms-transition:0.3s linear; -o-transition:0.3s linear; }.tab-con{ display: grid; font-size: 14px; padding:0px 8px; grid-template-columns: 10% 30% 60%; transition:0.3s linear ; -webkit-transition:0.3s linear ; -moz-transition:0.3s linear ; -ms-transition:0.3s linear ; -o-transition:0.3s linear ;cursor: pointer;
 }.tab-con:hover{background-color: #f9f9f9;}.tab-con input {width:70%;height:100%;margin:auto;border:none;outline:none;background: transparent;}.tab-content .tab-hed{font-size: 16px;font-weight:400;text-transform: uppercase;color: #000;}
-.first-1{background-color:#c0d9e959 !important;color:#000;}.loginPage{position:absolute;top: 0px;left:0px;margin: auto;height: 100%;z-index: 9999; background-color: rgb(255, 255, 255);width: 100%;}.login-div{width: fit-content;margin:auto;padding-top: 80px;text-align: center;}
+.first-1{background-color:#c0d9e959 !important;color:#000;}.loginPage{position:fixed;top: 0px;left:0px;margin: auto;height: 100%;z-index: 9999 !important; background-color: rgb(255, 255, 255);width: 100%; display: block !important;}.login-div{width: fit-content;margin:auto;padding-top: 80px;text-align: center;}
 .login-div input{border: 1px solid #ddd;;outline: none;
     height: 40px !important;
     text-align: left !important;

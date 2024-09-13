@@ -7,12 +7,14 @@ function DailyReport() {
   const [reportData, setReport] = useState([]);
   const [formData, setFormData] = useState({
     report_date: "",
+    report_date1: "",
     client: "",
     start_time: "",
     end_time: "",
     start:"",
     status: "",
-    description: "",
+    enquiry_month:"",
+  
     id: "" // Added id for editing
   });
 
@@ -31,49 +33,55 @@ function DailyReport() {
   // Submit form data
   const submitForm = () => {
     // Extract the hour and minute parts from start_time and end_time
-    const start = formData.start_time.split(':')[0];
-    const end = formData.start_time.split(':')[1]; // Minutes from start_time
-    const details = formData.end_time.split(':')[1]; // Minutes from end_time
-    const submit_time = {};
-    const time = new Date(); // Use `time` for getting the current date and time
+    const startHour = formData.start.split(':')[0];
+    const startMinutes = formData.start.split(':')[1];
+    const   report_date1 =formData.report_date.split('-').reverse().join('-');
+    const endHour = formData.end.split(':')[0];
+   const endMinutes = formData.end.split(':')[1];
     
-    // Extract the hours, minutes, and AM/PM format
-    const hours = time.getHours();
-    const minutes = time.getMinutes();
-    const ampm = hours >= 12 ? 'PM' : 'AM';
+    // Convert the hour to 12-hour format and append AM/PM
+    const formatTime = (hour, minutes) => {
+        const period = hour >= 12 ? 'PM' : 'AM';
+        const adjustedHour = hour % 12 || 12; // Convert hour 0 or 12 to 12 for 12-hour clock
+        return `${adjustedHour}:${minutes} ${period}`;
+    };
     
-    // Format hours to 12-hour format
-    const formattedHours = hours % 12 || 12; // If hour is 0, show it as 12
-    
-    // Pad minutes with leading zero if necessary
-    const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
-    
-    // Combine the date and time in AM/PM format
-    const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
-    
-    // Get the date (in YYYY-MM-DD format)
-    const year = time.getFullYear(); // Use `time` to get the year
-    const month = String(time.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so +1
-    const day = String(time.getDate()).padStart(2, '0');
-    const formattedDate = `${year}-${month}-${day}`;
-    
-    // Assign the formatted date and time to `submit_time` object
-    submit_time.date = formattedDate;
-    submit_time.time = formattedTime;
-    
-   // Outputs: { date: 'YYYY-MM-DD', time: 'HH:MM AM/PM' }
-    
-  
-    console.log('End:', end);
-    console.log('Details:', details);
-  
+    const start_time = formatTime(parseInt(startHour), startMinutes);
+    const end_time = formatTime(parseInt(endHour), endMinutes);
+
+    console.log(start_time);
+    console.log(end_time);
+
+    // the w_hours condition need to be done here
+    const w_hours = endHour - startHour;
+    const w_mins =startMinutes - endMinutes;
+
+
+            const  time=new Date();
+        const submittime = {
+          timehr: time.getHours(),               // Current hour
+          timemin: time.getMinutes(),            // Current minutes
+          fullDate: time.toLocaleString()        // Full date and time as a string
+        };
+        const submit_time=submittime.fullDate;
+        const  monthy=new Date();
+    const mon ={
+         month:monthy.getMonth() +1,
+         year:monthy.getFullYear(),
+    }
+    const enquiry_month=`${mon.month}-${mon.year}`;
+
+   
     // Add the start, end, and details to updatedFormData
     const updatedFormData = {
       ...formData,
-      start,
-      end,
-      details,
       submit_time,
+      start_time,
+      end_time,
+      w_hours,
+      w_mins,
+      enquiry_month,
+      report_date1,
     };
   
     // Determine the API URL and method based on whether we're editing or creating a report
@@ -109,26 +117,29 @@ function DailyReport() {
           // Update the reportData with the updated report including start, end, and details
           setReport(reportData =>
             reportData.map(r =>
-              r._id === formData._id ? { ...body, start, end, details ,submit_time } : r
+              r._id === formData._id ? { ...body ,report_date1,submit_time , start_time ,  end_time , w_hours , w_mins ,enquiry_month } : r
             )
           );
           alert('Report updated successfully');
         } else {
           // Add the new report to the list including start, end, and details
-          setReport(reportData => [...reportData, { ...body, start, end, details ,submit_time }]);
+          setReport(reportData => [...reportData, { ...body,report_date1 ,submit_time , start_time ,  end_time , w_hours , w_mins ,enquiry_month  }]);
           alert('Report submitted successfully');
         }
   
         // Reset the form and editing state
         setFormData({
           report_date: "",
+          report_date1:"",
           client: "",
+          start:"",
+          end:"",
           start_time: "",
           end_time: "",
+          enquiry_month:"",
           status: "",
-          start: "",
-          end: "",
-          description: "",
+          w_hours:"",
+          w_mins:"",
           _id: "" // Assuming _id is used to identify documents
         });
         setIsEditing(false);
@@ -139,9 +150,6 @@ function DailyReport() {
       });
   };
   
-  
-  
-  console.log('Form data being sent:', JSON.stringify(formData, null, 2));
 
   // Fetch reports on component mount
   useEffect(() => {
@@ -167,7 +175,6 @@ function DailyReport() {
       start_time: "",
       end_time: "",
       status: "",
-      description: "",
       id: ""
     });
     setIsEditing(false); // Reset editing state
@@ -222,12 +229,12 @@ function DailyReport() {
             </select>
           </div>
           <div>
-            <p>Status</p>
+            <p>Work Type</p>
             <ul className='wt-wrp'>
-              <li><input type="radio" name="status" value="WIP" checked={formData.status === "WIP"} onChange={handleChange} /><p>WIP</p></li>
-              <li><input type="radio" name="status" value="AMC" checked={formData.status === "AMC"} onChange={handleChange} /><p>AMC</p></li>
-              <li><input type="radio" name="status" value="SEO" checked={formData.status === "SEO"} onChange={handleChange} /><p>SEO</p></li>
-              <li><input type="radio" name="status" value="Others" checked={formData.status === "Others"} onChange={handleChange} /><p>Others</p></li>
+              <li><input type="radio" name="worktype" value="WIP" checked={formData.worktype === "WIP"} onChange={handleChange} /><p>WIP</p></li>
+              <li><input type="radio" name="worktype" value="AMC" checked={formData.worktype === "AMC"} onChange={handleChange} /><p>AMC</p></li>
+              <li><input type="radio" name="worktype" value="SEO" checked={formData.worktype === "SEO"} onChange={handleChange} /><p>SEO</p></li>
+              <li><input type="radio" name="worktype" value="Others" checked={formData.worktype === "Others"} onChange={handleChange} /><p>Others</p></li>
             </ul>
           </div>
           <div>
@@ -244,9 +251,9 @@ function DailyReport() {
               <p>Start Time</p>
               <input 
                 type='time' 
-                value={formData.start_time} 
+                value={formData.start} 
                 onChange={handleChange} 
-                name='start_time' 
+                name='start' 
                 required 
               />
             </div>
@@ -254,9 +261,9 @@ function DailyReport() {
               <p>End Time</p>
               <input 
                 type='time' 
-                value={formData.end_time} 
+                value={formData.end} 
                 onChange={handleChange} 
-                name='end_time' 
+                name='end' 
                 required 
               />
             </div>
@@ -264,9 +271,9 @@ function DailyReport() {
           <div> 
             <p>Description</p>
             <textarea 
-              name='description'  
+              name='status'  
               className='description'  
-              value={formData.description} 
+              value={formData.status} 
               onChange={handleChange}  
             />
           </div>

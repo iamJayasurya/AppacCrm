@@ -33,7 +33,7 @@ function Main() {
       <SideMenu active={active} />
       
       {/* Conditionally render the Login component or apply styles */}
-      <Login isVisible={isLoginVisible} onLogin={handleLogin} />
+      {/* <Login  /> */}
     </div>
   );
 }

@@ -4,12 +4,15 @@ import {Bar} from 'react-chartjs-2'
 import {Doughnut} from 'react-chartjs-2'
 
 
-Chartjs.register(
+
+function Chart() {
+  Chartjs.register(
     CategoryScale
     ,LinearScale,
     BarElement,ArcElement,
     Title,Tooltip,Legend
 )
+
 const options={
     responsive:true,
     transition:'0.3s' ,
@@ -32,7 +35,7 @@ const options={
     ],
     datasets: [{
       label: 'My First Dataset',
-      data: [80, 40, 100],
+      data: [60, 60, 60       ],
       backgroundColor: [
         'rgb(0 172 193)',
         'rgb(54, 162, 235)',
@@ -58,7 +61,6 @@ const data1={
         }
     ]
 }
-function Chart() {
   return (
     <div className='chart-wrp'>
     <Bar options={options} className='bargraph' data={data1} id='1'>    <p>Hello Fallback World</p></Bar>
