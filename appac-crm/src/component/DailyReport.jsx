@@ -179,6 +179,26 @@ function DailyReport() {
     });
     setIsEditing(false); // Reset editing state
   };
+  
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recordsPerPage, setRecordsPerPage] = useState(5);
+  
+    // Calculate total pages
+    const totalPages = Math.ceil(reportData.length / recordsPerPage);
+  
+    // Slice data for pagination
+    const indexOfLastRecord = currentPage * recordsPerPage;
+    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+    const currentData = reportData.slice(indexOfFirstRecord, indexOfLastRecord);
+  
+    const handlePageChange = (pageNumber) => {
+      setCurrentPage(pageNumber);
+    };
+  
+    const handleRecordsPerPageChange = (e) => {
+      setRecordsPerPage(Number(e.target.value));
+      setCurrentPage(1); // Reset to first page when records per page change
+    };
 
   return (
     <div className="profiled sub-pages">
@@ -296,62 +316,102 @@ function DailyReport() {
         </div>
         <div className='report-sts'>
           <div>
-            <Chart />
+              <Chart currentData={currentData}/>
+              
           </div>
           <br />
           <div>
-            <div className="w-table-cwrp">
-              <div className="serach-box">
-                <div className="twrap">
-                  <select className="total-box" name="recors" id="records">
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
-                    <option value="All">All</option>
-                  </select>
-                  <label htmlFor="records">Records per page</label>
-                </div>
-                <search>
-                  <form>
-                    <label>Search :</label>
-                    <input className="search-box" name="fsrch" id="fsrch" placeholder=" " />
-                  </form>
-                </search>
-              </div>
-              <div className="works-table">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Sno.</th>
-                      <th>Report Date</th>
-                      <th>client</th>
-                      <th>Start / End Time</th>
-                      <th>Total Hours</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {reportData.map((data, index) => (
-                      <ReportTable 
-                        key={data.id} 
-                        index={index} 
-                        reportdata={data} 
-                        onEdit={onEdit} 
-                      />
-                    ))}
-                  </tbody>
-                </table>
-                <div className="serach-box">
-                  <div><p>Showing 1 to 1 of 1 entries</p></div>
-                  <div><p>Previous 1 2 Next</p></div>
-                </div>
-              </div>
+          <div className="w-table-cwrp">
+      <div className="search-box">
+        <div className="twrap">
+          <select
+            className="total-box"
+            name="records"
+            id="records"
+            value={recordsPerPage}
+            onChange={handleRecordsPerPageChange}
+          >
+            <option value="5">5</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value={reportData.length}>All</option>
+          </select>
+          <label htmlFor="records">Records per page</label>
+        </div>
+        <div className="search">
+          <form>
+            <label>Search:</label>
+            <input
+              className="search-box"
+              name="fsrch"
+              id="fsrch"
+              placeholder=" "
+            />
+          </form>
+        </div>
+      </div>
+
+      <div className="works-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Sno.</th>
+              <th>Report Date</th>
+              <th>Client</th>
+              <th>Start / End Time</th>
+              <th>Total Hours</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentData.map((data, index) => (
+              <ReportTable
+                key={data.id}
+                index={indexOfFirstRecord + index + 1}
+                reportdata={data}
+                onEdit={onEdit}
+              />
+            ))}
+          </tbody>
+        </table>
+        <div className="pagination">
+          <p>
+            Showing {indexOfFirstRecord + 1} to{" "}
+            {Math.min(indexOfLastRecord, reportData.length)} of{" "}
+            {reportData.length} entries
+          </p>
+          <div className="pagination-controls paginaton-wrp">
+            <button  
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m14 7l-5 5l5 5"/></svg>
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button 
+               
+              ><p key={i + 1}
+              onClick={() => handlePageChange(i + 1)}
+              className={`pg-nav ${currentPage === i + 1 ? "active" : ""}`}>{i + 1}</p>
+                
+              </button>
+            ))}
+            <button 
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m10 17l5-5l-5-5"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
             </div>
           </div>
         </div>
       </div>    
-    </div>
+   
   );
 }
 

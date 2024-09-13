@@ -2,10 +2,10 @@ import React from 'react';
 import  '../css/style.css'
 import  '../css/sub-style.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useNavigate } from 'react-router-dom'; 
 import {Link} from 'react-router-dom'
 import Dash from "./dashbord";
 import Login from "./Login";
-
 import Myappac from "./my-appac";
 import Workorder from './workOrder';
 import TaskManagement from './task-managment';
@@ -22,9 +22,14 @@ import Feedback from './feedBack'
 import Resignation from './ResiGnation'
 
 
-function SideMenu({active}) {
- // Empty dependency array so this runs once on mount
-  
+function SideMenu({active }) {
+  const storedUser = sessionStorage.getItem("user");
+  if (storedUser && window.location.pathname === "/") {
+    const navigate =useNavigate
+    navigate('/dashboard');
+    alert('no redirection');
+  }
+ 
   return (
    <BrowserRouter >
    <div className={`body ${!active ? 'active' : ''}` }>
@@ -35,7 +40,7 @@ function SideMenu({active}) {
           <ul id="side-menu">
             <li className="menu-title">NAVIGATION</li>
             <li>
-              <Link to="/" 
+              <Link to="/dashboard" 
                 className={'dashboard'}  
               
               >
@@ -68,8 +73,8 @@ function SideMenu({active}) {
       </div>
       <div>
           <Routes>
-          <Route path="/login" element={<Login/>} ></Route>
-        <Route path="/" element={<Dash/>} ></Route>
+          <Route path="/" element={<Login/>} ></Route>
+        <Route path="/dashboard" element={<Dash/>} ></Route>
         <Route path="/myappac" element={<Myappac/>} >   </Route>
         <Route path="/workorder" element={<Workorder/>} ></Route>
         <Route path="/taskmangement" element={<TaskManagement/>} ></Route>

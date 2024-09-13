@@ -4,7 +4,7 @@ function ReportTable({ index, reportdata, onEdit }) {
  
   return (
     <tr className="odd">
-      <td>{index + 1}</td>
+      <td>{index }</td>
       <td>{reportdata.report_date}</td>
       <td>{reportdata.client}</td>
       <td>{reportdata.start_time} / {reportdata.end_time}</td>

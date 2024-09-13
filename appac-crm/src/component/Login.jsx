@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';  // Import useNavigate
+import { useNavigate } from 'react-router-dom'; 
 
-function Login({ isVisible }) {
+
+function Login() {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [user, setUserdata] = useState({
     username: "",
@@ -32,17 +33,41 @@ function Login({ isVisible }) {
         if (data.empid === empid && data.password === password) {
           alert('User is present, login successful');
           // Redirect to homepage or another URL
-          navigate('/');  // Change the URL to "/"
+          navigate('/dashboard');  
+          sessionStorage.setItem("user", empid);
+    sessionStorage.setItem("pass", password);
+
+    // Retrieve credentials from sessionStorage
+    const storedUser = sessionStorage.getItem("user");
+    const storedPass = sessionStorage.getItem("pass");
+
+    console.log(storedUser);
+    console.log(storedPass);
+
+    const pathname=window.location.pathname;
+    console.log(pathname);
+    // Check if the current path is '/' and redirect to '/dashboard'
+    if (storedUser ) {
+    
+     alert('user is present')
+      
+    }
+          
+        // Change the URL to "/"
         } else {
           alert('Invalid credentials');
         }
       } else {
         alert('User not found or incorrect credentials');
       }
+      
     })
+   
     .catch(error => {
       console.error(`Error fetching data: ${error}`);
     });
+   
+
   };
 
   // Update the current time every second
@@ -68,8 +93,8 @@ function Login({ isVisible }) {
   };
 
   const loginStyle = {
-    display: isVisible ? 'block' : 'none',
-    zIndex: isVisible ? 100 : 0,
+    display:  'block',
+    zIndex:100 ,
   };
 
   const currentDay = currentTime.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });

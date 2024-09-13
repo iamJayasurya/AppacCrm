@@ -5,14 +5,16 @@ import {Doughnut} from 'react-chartjs-2'
 
 
 
-function Chart() {
+function Chart({currentData}) {
   Chartjs.register(
     CategoryScale
     ,LinearScale,
     BarElement,ArcElement,
     Title,Tooltip,Legend
 )
-
+ console.log('====================================');
+ console.log(currentData[0]);
+ console.log('===================================='); 
 const options={
     responsive:true,
     transition:'0.3s' ,
@@ -35,7 +37,7 @@ const options={
     ],
     datasets: [{
       label: 'My First Dataset',
-      data: [60, 60, 60       ],
+      data: [currentData[0].w_hours,currentData[1].w_hours, currentData[3].w_hours],
       backgroundColor: [
         'rgb(0 172 193)',
         'rgb(54, 162, 235)',

@@ -1,42 +1,77 @@
 [
   {
     "report_date": "2024-09-13",
+    "report_date1": "13-09-2024",
     "client": "Carlstahl",
-    "start_time": "12:38",
-    "end_time": "13:38",
+    "start_time": "12:38 PM",
+    "end_time": "1:38 PM",
     "status": "SEO",
-    "description": "asfcw3weadfxc"
+    "start": "12:38",
+    "end": "13:38",
+    "submit_time": "9/13/2024, 1:38:00 PM",
+    "w_hours": 1,
+    "w_mins": 0,
+    "worktype": "SEO",
+    "enquiry_month": "9-2024"
   },
   {
     "report_date": "2024-09-14",
+    "report_date1": "14-09-2024",
     "client": "Acme Corp",
-    "start_time": "09:00",
-    "end_time": "17:00",
+    "start_time": "09:00 AM",
+    "end_time": "5:00 PM",
     "status": "Completed",
-    "description": "Initial setup and client meeting"
+    "start": "09:00",
+    "end": "17:00",
+    "submit_time": "9/14/2024, 5:00:00 PM",
+    "w_hours": 8,
+    "w_mins": 0,
+    "worktype": "Setup and Meeting",
+    "enquiry_month": "9-2024"
   },
   {
     "report_date": "2024-09-15",
+    "report_date1": "15-09-2024",
     "client": "Tech Solutions",
-    "start_time": "14:00",
-    "end_time": "18:30",
+    "start_time": "02:00 PM",
+    "end_time": "6:30 PM",
     "status": "In Progress",
-    "description": "Ongoing development and testing"
+    "start": "14:00",
+    "end": "18:30",
+    "submit_time": "9/15/2024, 6:30:00 PM",
+    "w_hours": 4,
+    "w_mins": 30,
+    "worktype": "Development and Testing",
+    "enquiry_month": "9-2024"
   },
   {
     "report_date": "2024-09-16",
+    "report_date1": "16-09-2024",
     "client": "Global Industries",
-    "start_time": "11:15",
-    "end_time": "15:45",
+    "start_time": "11:15 AM",
+    "end_time": "3:45 PM",
     "status": "Pending",
-    "description": "Proposal draft and client review"
+    "start": "11:15",
+    "end": "15:45",
+    "submit_time": "9/16/2024, 3:45:00 PM",
+    "w_hours": 4,
+    "w_mins": 30,
+    "worktype": "Proposal Draft",
+    "enquiry_month": "9-2024"
   },
   {
     "report_date": "2024-09-17",
+    "report_date1": "17-09-2024",
     "client": "NextGen Solutions",
-    "start_time": "10:00",
-    "end_time": "16:00",
+    "start_time": "10:00 AM",
+    "end_time": "4:00 PM",
     "status": "Completed",
-    "description": "Final report submission and follow-up"
+    "start": "10:00",
+    "end": "16:00",
+    "submit_time": "9/17/2024, 4:00:00 PM",
+    "w_hours": 6,
+    "w_mins": 0,
+    "worktype": "Report Submission",
+    "enquiry_month": "9-2024"
   }
 ]

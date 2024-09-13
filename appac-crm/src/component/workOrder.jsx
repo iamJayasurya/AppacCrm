@@ -13,7 +13,7 @@ function WorkOrder() {
         <div className="breadcrumbs">
           <ul>
             <li>
-              <Link to="/">
+              <Link to="/dashboard">
                 Dashboard 
                 <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 20 20">
                   <path fill="#818798" d="M12.6 12L8 7.4L9.4 6l6 6l-6 6L8 16.6z"/>
@@ -77,9 +77,9 @@ function WorkOrder() {
                   <div><p>Showing 1 to 1 of 1 entries</p></div>
                   <div className='paginaton-wrp'>
                     <div className='pg-arr'><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m14 7l-5 5l5 5"/></svg></div>
-                      <div ><a className="pg-nav active">1</a></div>
-                      <div ><a className="pg-nav">2</a></div>
-                      <div ><a className="pg-nav">3</a></div>
+                      <div ><a href="pg1"className="pg-nav active">1</a></div>
+                      <div ><a href="pg2" className="pg-nav">2</a></div>
+                      <div ><a  href="pg3" className="pg-nav">3</a></div>
                     <div className='pg-arr'><svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m10 17l5-5l-5-5"/></svg></div>
                   </div>
                   </div>
